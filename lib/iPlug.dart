@@ -1,10 +1,4 @@
-abstract class IPlugIn{
-  bool checkOut(IPlugOut iPlugOut);
-}
-
-abstract class IPlugOut{
-  bool checkIn(IPlugIn iPlugIn);
-}
+import 'package:core_engine/plugin_manager.dart';
 
 class PlugAnime implements IPlugIn, IPlugOut{
 
