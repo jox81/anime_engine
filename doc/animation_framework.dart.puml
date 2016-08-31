@@ -20,4 +20,10 @@ namespace animation_framework.lib.core.animation_framework.dart {
 class dart.animation_framework.lib.core.loop_manager.dart.PlayableMixin #c9c0ba{
 }
 }
+
+abstract class Animatable
+abstract class Playable
+
+Animatable <|.. Playable
+
 @enduml

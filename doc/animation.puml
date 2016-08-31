@@ -1,9 +1,0 @@
-@startuml
-
-abstract class Animatable
-abstract class Playable
-
-Animatable <|.. Playable
-
-
-@enduml

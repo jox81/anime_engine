@@ -1,0 +1,31 @@
+@startuml
+'This is completely experimental
+
+package StageXL{
+}
+
+package Other{
+}
+
+package core_engine {
+[Plugin_Manager]
+iPlug <-> [Plugin_Manager]
+iPlugAnime <-> iPlug
+iPlugRender <-> iPlug
+}
+
+package anime_engine{
+iPlugAnime <--> iAnime
+[anime_engine_core] <-> iAnime
+iAnime <. StageXL
+iAnime <. Other
+}
+
+package render_engine{
+iPlugRender <--> iRender
+[anime_engine_core] <-> iAnime
+iAnime <. StageXL
+iAnime <. Other
+}
+
+@enduml
