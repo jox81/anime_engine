@@ -1,0 +1,23 @@
+'From : C:\HTML5-Games\dart\animation_framework\lib\core\animation_framework.dart
+@startuml
+namespace animation_framework.lib.core.animation_framework.dart {
+dart.animation_framework.lib.core.loop_manager.dart.PlayableMixin <|-- Timeline #c9c0ba
+class Timeline {
+ + List<Keyframe> keys
+ + void addKeyframe()
+ + bool update()
+}
+Timeline *-- "0..*" Keyframe #CCC
+
+class Keyframe {
+ + num value
+ + num time
+ + Keyframe()
+}
+
+}
+namespace animation_framework.lib.core.animation_framework.dart {
+class dart.animation_framework.lib.core.loop_manager.dart.PlayableMixin #c9c0ba{
+}
+}
+@enduml
