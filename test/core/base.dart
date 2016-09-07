@@ -1,6 +1,7 @@
 @TestOn('vm')
-import 'package:anime_engine/core/animation_framework.dart';
 import "package:test/test.dart";
+import 'package:anime_engine/core/keyframe.dart';
+import 'package:anime_engine/core/timeline.dart';
 
 void main() {
   group("Keyframes", () {
@@ -9,13 +10,13 @@ void main() {
       expect(key, isNotNull);
     });
 
+    //value
     test("add value to Keyframe", () async {
       Keyframe key = new Keyframe();
       key.value = 10.0;
       expect(key.value, equals(10.0));
     });
 
-    //value
     test("add value to Keyframe at construct time", () async {
       Keyframe key = new Keyframe(value: 10.0);
       expect(key.value, equals(10.0));

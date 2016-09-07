@@ -1,7 +1,8 @@
 @TestOn('vm')
-import 'package:anime_engine/core/animation_framework.dart';
 import 'package:anime_engine/stagexl/animatable_object.dart';
 import "package:test/test.dart";
+import 'package:anime_engine/core/timeline.dart';
+import 'package:anime_engine/core/keyframe.dart';
 
 void main() {
   group("experiment", () {
