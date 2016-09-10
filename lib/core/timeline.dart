@@ -1,9 +1,18 @@
 import 'package:anime_engine/core/loop_manager.dart';
 import 'package:anime_engine/core/keyframe.dart';
 import 'package:anime_engine/core/animator.dart';
+import 'package:anime_engine/core/animation_property.dart';
 
-class Timeline extends PlayableMixin implements ITrackable {
+abstract class Timeline extends PlayableMixin implements ITrackable {
   List<Keyframe> keys = new List();
+
+  Timeline(this.animationProperty);
+
+  num get duration {
+    keys.sort((a, b) => a.time.compareTo(b.time));
+    print('duration : ${keys.first.time}');
+    return keys.first.time;
+  }
 
   void addKeyframe(Keyframe keyframe) {
     keys.add(keyframe);
@@ -20,4 +29,7 @@ class Timeline extends PlayableMixin implements ITrackable {
     // TODO: implement getValueAtTime
     return 0;
   }
+
+  @override
+  AnimationProperty animationProperty;
 }

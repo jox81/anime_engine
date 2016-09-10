@@ -2,6 +2,7 @@
 import "package:test/test.dart";
 import 'package:anime_engine/core/keyframe.dart';
 import 'package:anime_engine/core/timeline.dart';
+import 'package:anime_engine/core/animation_controller.dart';
 
 void main() {
   group("Keyframes", () {
@@ -47,16 +48,35 @@ void main() {
     });
   });
 
-  group("Timeline", () {
-    test("create Timeline", () async {
-      Timeline timeline = new Timeline();
-      expect(timeline, isNotNull);
+  group("AnimationProperty", () {
+    test("create AnimationProperty", () async {
+      NumController controller = new NumController();
+      expect(controller, isNotNull);
     });
 
-    test("add key to Timeline - way 1", () async {
+    test("add key to NumController - way 1", () async {
+      NumController controller = new NumController();
+      controller.keys.add(new Keyframe());
+      expect(controller.keys.length > 0, isTrue);
+    });
+
+    test("add key to Timeline - way 2", () async {
       Timeline timeline = new Timeline();
-      timeline.keys.add(new Keyframe());
+      timeline.addKeyframe(new Keyframe());
       expect(timeline.keys.length > 0, isTrue);
+    });
+  });
+
+  group("AnimationController", () {
+    test("create Controller", () async {
+      NumController controller = new NumController();
+      expect(controller, isNotNull);
+    });
+
+    test("add key to NumController - way 1", () async {
+      NumController controller = new NumController();
+      controller.keys.add(new Keyframe());
+      expect(controller.keys.length > 0, isTrue);
     });
 
     test("add key to Timeline - way 2", () async {

@@ -8,7 +8,10 @@ class ScriptAnimation extends PlayableMixin implements ITrackable{
 
   final ScriptAnimationUpdate updateFunction;
 
-  ScriptAnimation(AnimationProperty animationProperty, this.updateFunction);
+  @override
+  AnimationProperty animationProperty;
+
+  ScriptAnimation(this.animationProperty, this.updateFunction);
 
   num _value;
 
@@ -22,4 +25,6 @@ class ScriptAnimation extends PlayableMixin implements ITrackable{
   num getValueAtTime(num time) {
     return updateFunction(time);
   }
+
+
 }

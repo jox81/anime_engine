@@ -44,11 +44,8 @@ _main() async {
       case 1:
         ao.a2.play();
         break;
-      case 2:
-        ao.a2P(ao.animationPropertyX).play();
-        break;
       case 3:
-        Animator animator = new Animator(ao.animationPropertyX, ao.a2);
+        Animator animator = new Animator(ao.a2);
         AnimeManager.manager.add(animator);
         break;
       case 4:
@@ -60,8 +57,5 @@ _main() async {
       default:
         break;
     }
-
   }
 }
-
-
