@@ -7,6 +7,7 @@ environment:
 
 dependencies:
   stagexl: "^0.13.0"
+  vector_math:
   core_engine:
         git:
             url: https://github.com/jox81/core_engine.git

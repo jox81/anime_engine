@@ -3,6 +3,7 @@ import "package:test/test.dart";
 import 'package:anime_engine/core/keyframe.dart';
 import 'package:anime_engine/core/timeline.dart';
 import 'package:anime_engine/core/animation_controller.dart';
+import 'package:anime_engine/core/animation_property.dart';
 
 void main() {
   group("Keyframes", () {
@@ -50,39 +51,108 @@ void main() {
 
   group("AnimationProperty", () {
     test("create AnimationProperty", () async {
-      NumController controller = new NumController();
-      expect(controller, isNotNull);
-    });
-
-    test("add key to NumController - way 1", () async {
-      NumController controller = new NumController();
-      controller.keys.add(new Keyframe());
-      expect(controller.keys.length > 0, isTrue);
-    });
-
-    test("add key to Timeline - way 2", () async {
-      Timeline timeline = new Timeline();
-      timeline.addKeyframe(new Keyframe());
-      expect(timeline.keys.length > 0, isTrue);
+      MockObject mockObject = new MockObject();
+      mockObject.animationPropertyX.setter(5);
+      expect(mockObject.animationPropertyX.getter(), 5);
     });
   });
 
   group("AnimationController", () {
-    test("create Controller", () async {
-      NumController controller = new NumController();
-      expect(controller, isNotNull);
+    test("create Timeline", () async {
+      MockObject mockObject = new MockObject();
+      Timeline timeline = new NumController(mockObject.animationPropertyX);
+      expect(timeline, isNotNull);
     });
 
-    test("add key to NumController - way 1", () async {
-      NumController controller = new NumController();
-      controller.keys.add(new Keyframe());
-      expect(controller.keys.length > 0, isTrue);
+    test("add key to Timeline - way 1", () async {
+      MockObject mockObject = new MockObject();
+      Timeline timeline = new NumController(mockObject.animationPropertyX);
+      timeline.keys.add(new Keyframe());
+      expect(timeline.keys.length > 0, isTrue);
     });
 
     test("add key to Timeline - way 2", () async {
-      Timeline timeline = new Timeline();
+      MockObject mockObject = new MockObject();
+      Timeline timeline = new NumController(mockObject.animationPropertyX);
       timeline.addKeyframe(new Keyframe());
       expect(timeline.keys.length > 0, isTrue);
     });
+
+    test("add key at same time", () async {
+      MockObject mockObject = new MockObject();
+      Timeline timeline = new NumController(mockObject.animationPropertyX);
+      timeline.addKeyframe(new Keyframe(time: 1.0, value: 1.0));
+      timeline.addKeyframe(new Keyframe(time: 1.0, value: 3.0));
+      expect(timeline.keys.length == 1, isTrue);
+    });
+
+    test("getValueAtTime", () async {
+      MockObject mockObject = new MockObject();
+      Timeline timeline = new NumController(mockObject.animationPropertyX);
+      timeline.addKeyframe(new Keyframe());
+      expect(timeline.keys.length == 1, isTrue);
+
+      expect(timeline.getValueAtTime(0.0),0.0);
+    });
+
+    test("getValueAtTime - 2", () async {
+      MockObject mockObject = new MockObject();
+      Timeline timeline = new NumController(mockObject.animationPropertyX);
+      timeline.addKeyframe(new Keyframe(time: 0.0, value: 1.0));
+      timeline.addKeyframe(new Keyframe(time: 1.0, value: 2.0));
+      expect(timeline.keys.length == 2, isTrue);
+
+      expect(timeline.getValueAtTime(0.0),1.0);
+      expect(timeline.getValueAtTime(1.0),2.0);
+    });
+
+    test("getValueAtTime - 3", () async {
+      MockObject mockObject = new MockObject();
+      Timeline timeline = new NumController(mockObject.animationPropertyX);
+      timeline.addKeyframe(new Keyframe());
+      timeline.addKeyframe(new Keyframe(time: 1.0, value: 0.5));
+      timeline.addKeyframe(new Keyframe(time: 1.0, value: 1.0));//Should remove older
+      timeline.addKeyframe(new Keyframe(time: 2.0, value: 2.0));
+      expect(timeline.keys.length == 3, isTrue);
+
+      expect(timeline.getValueAtTime(0.0),0.0);
+      expect(timeline.getValueAtTime(1.0),1.0);
+      expect(timeline.getValueAtTime(2.0),2.0);
+    });
+
+    test("getValueAtTime - 4", () async {
+      MockObject mockObject = new MockObject();
+      Timeline timeline = new NumController(mockObject.animationPropertyX);
+      timeline.addKeyframe(new Keyframe(time: 0.0, value: 0.0));
+      timeline.addKeyframe(new Keyframe(time: 4.0, value: 8.0));
+      expect(timeline.keys.length == 2, isTrue);
+
+      expect(timeline.getValueAtTime(1.0),2.0);
+    });
+
+    test("getValueAtTime - 5 - get value before a key", () async {
+      MockObject mockObject = new MockObject();
+      Timeline timeline = new NumController(mockObject.animationPropertyX);
+      timeline.addKeyframe(new Keyframe(time: 2.0, value: 4.0));
+      timeline.addKeyframe(new Keyframe(time: 4.0, value: 8.0));
+      expect(timeline.keys.length == 2, isTrue);
+
+      expect(timeline.getValueAtTime(1.0),4.0);
+    });
+
+    test("getValueAtTime - 6 - get value before after key", () async {
+      MockObject mockObject = new MockObject();
+      Timeline timeline = new NumController(mockObject.animationPropertyX);
+      timeline.addKeyframe(new Keyframe(time: 2.0, value: 4.0));
+      timeline.addKeyframe(new Keyframe(time: 4.0, value: 8.0));
+      expect(timeline.keys.length == 2, isTrue);
+
+      expect(timeline.getValueAtTime(6.0),8.0);
+    });
   });
+}
+
+class MockObject{
+  num x = 0;
+  AnimationProperty get animationPropertyX => new AnimationProperty(()=> x, (num v)=> x = v);
 }
